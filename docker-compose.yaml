@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  dash_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dash_app
+    ports:
+      - "5050:5000"
+    volumes:
+      - ./code:/app   # live reload code changes
+    depends_on:
+      - mlflow
+
+  mlflow:
+    build:
+      context: .
+      dockerfile: mlflow.dockerfile
+    container_name: mlflow
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./mlruns:/mlruns  # persist MLflow runs
